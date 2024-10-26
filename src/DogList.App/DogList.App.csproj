@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DogList.Application\DogList.Application.csproj" />
+      <ProjectReference Include="..\DogList.Domain\DogList.Domain.csproj" />
+      <ProjectReference Include="..\DogList.Persistence\DogList.Persistence.csproj" />
+      <ProjectReference Include="..\DogList.Presentation\DogList.Presentation.csproj" />
+    </ItemGroup>
+
+</Project>
