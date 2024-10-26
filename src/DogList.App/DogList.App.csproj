@@ -7,10 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DogList.Application\DogList.Application.csproj" />
-      <ProjectReference Include="..\DogList.Domain\DogList.Domain.csproj" />
-      <ProjectReference Include="..\DogList.Persistence\DogList.Persistence.csproj" />
-      <ProjectReference Include="..\DogList.Presentation\DogList.Presentation.csproj" />
+        <ProjectReference Include="..\DogList.Application\DogList.Application.csproj"/>
+        <ProjectReference Include="..\DogList.Domain\DogList.Domain.csproj"/>
+        <ProjectReference Include="..\DogList.Persistence\DogList.Persistence.csproj"/>
+        <ProjectReference Include="..\DogList.Presentation\DogList.Presentation.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.3"/>
     </ItemGroup>
 
 </Project>
