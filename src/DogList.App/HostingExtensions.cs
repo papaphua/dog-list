@@ -1,4 +1,5 @@
-﻿using DogList.Persistence;
+﻿using DogList.Application.Core;
+using DogList.Persistence;
 using DogList.Presentation;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,11 +12,14 @@ public static class HostingExtensions
         builder.Services.AddControllers()
             .AddApplicationPart(AssemblyReference.Assembly);
 
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddScoped<IUnitOfWork>(provider =>
+            provider.GetRequiredService<ApplicationDbContext>());
 
         return builder.Build();
     }
