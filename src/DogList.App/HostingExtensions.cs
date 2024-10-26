@@ -1,7 +1,8 @@
-﻿using DogList.Application.Core;
+﻿using DogList.App.Startup;
+using DogList.Application.Core;
 using DogList.Persistence;
-using DogList.Presentation;
 using Microsoft.EntityFrameworkCore;
+using AssemblyReference = DogList.Presentation.AssemblyReference;
 
 namespace DogList.App;
 
@@ -20,6 +21,9 @@ public static class HostingExtensions
 
         builder.Services.AddScoped<IUnitOfWork>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
+
+        builder.Services.RegisterRepositories();
+        builder.Services.RegisterServices();
 
         return builder.Build();
     }
