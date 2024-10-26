@@ -1,11 +1,18 @@
-﻿namespace DogList.App;
+﻿using DogList.Persistence;
+using DogList.Presentation;
+using Microsoft.EntityFrameworkCore;
+
+namespace DogList.App;
 
 public static class HostingExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddControllers()
-            .AddApplicationPart(Presentation.AssemblyReference.Assembly);
+            .AddApplicationPart(AssemblyReference.Assembly);
+
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();

@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DogList.Domain\DogList.Domain.csproj" />
+        <ProjectReference Include="..\DogList.Domain\DogList.Domain.csproj"/>
     </ItemGroup>
 
 </Project>
