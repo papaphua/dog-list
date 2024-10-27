@@ -17,30 +17,19 @@ public sealed class DogRepository(
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
-    public async Task<List<DogDto>> GetAsync(FilteringQuery filter)
+    public async Task<IList<DogDto>> GetAsync(FilteringQuery filter, PagingQuery? paging)
     {
         var query = _dbContext
             .Set<Dog>()
-            .AsQueryable();
+            .OrderBy($"{filter.Attribute ?? nameof(Dog.Id)} {filter.Order}")
+            .ProjectTo<DogDto>(mapper.ConfigurationProvider);
+        
+        if (paging is { PageNumber: > 0, PageSize: > 0 })
+        {
+            return await query.ToPagedListAsync(paging);
+        }
 
-        if (filter.Attribute != null) query = query.OrderBy($"{filter.Attribute} {filter.Order}");
-
-        return await query
-            .ProjectTo<DogDto>(mapper.ConfigurationProvider)
-            .ToListAsync();
-    }
-
-    public async Task<PagedList<DogDto>> GetAsync(FilteringQuery filter, PagingQuery paging)
-    {
-        var query = _dbContext
-            .Set<Dog>()
-            .AsQueryable();
-
-        if (filter.Attribute != null) query = query.OrderBy($"{filter.Attribute} {filter.Order}");
-
-        return await query
-            .ProjectTo<DogDto>(mapper.ConfigurationProvider)
-            .ToPagedListAsync(paging);
+        return await query.ToListAsync();
     }
 
     public async Task<bool> NameExists(string name)

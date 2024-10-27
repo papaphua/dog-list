@@ -1,6 +1,6 @@
 ﻿namespace DogList.Domain.Core.Paging;
 
-public sealed class PagingInfo(PagingQuery paging, int totalItems)
+public class PagingInfo(PagingQuery paging, int totalItems)
 {
     public int PageNumber { get; } = paging.PageNumber;
 

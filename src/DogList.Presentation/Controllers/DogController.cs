@@ -18,15 +18,16 @@ public sealed class DogController(
     [HttpGet]
     public async Task<IResult> Get([FromQuery] FilteringQuery filter, [FromQuery] PagingQuery? paging = null)
     {
-        var hasPaging = paging is { PageNumber: > 0, PageSize: > 0 };
+        var result = await dogService.GetAsync(filter, paging);
 
-        dynamic result = hasPaging
-            ? await dogService.GetAsync(filter, paging!)
-            : await dogService.GetAsync(filter);
+        if (result.IsSuccess)
+        {
+            return paging is { PageNumber: > 0, PageSize: > 0 }
+                ? Results.Ok((result.Value as PagedList<DogDto>)!.ToPagedResponse())
+                : Results.Ok(result.Value);
+        }
 
-        return result.IsSuccess
-            ? Results.Ok(result.Value)
-            : result.ToProblemDetails();
+        return result.ToProblemDetails();
     }
 
     [HttpPost]

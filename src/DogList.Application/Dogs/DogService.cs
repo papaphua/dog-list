@@ -13,14 +13,10 @@ public sealed class DogService(
     IMapper mapper)
     : IDogService
 {
-    public async Task<Result<List<DogDto>>> GetAsync(FilteringQuery filter)
+    public async Task<Result<IList<DogDto>>> GetAsync(FilteringQuery filter, PagingQuery? paging)
     {
-        return await dogRepository.GetAsync(filter);
-    }
-
-    public async Task<Result<PagedList<DogDto>>> GetAsync(FilteringQuery filter, PagingQuery paging)
-    {
-        return await dogRepository.GetAsync(filter, paging);
+        var value = await dogRepository.GetAsync(filter, paging);
+        return Result<IList<DogDto>>.Success(value);
     }
 
     public async Task<Result> AddAsync(DogDto dto)
