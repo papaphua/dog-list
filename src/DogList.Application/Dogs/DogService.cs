@@ -15,8 +15,16 @@ public sealed class DogService(
 {
     public async Task<Result<IList<DogDto>>> GetAsync(FilteringQuery filter, PagingQuery? paging)
     {
-        var value = await dogRepository.GetAsync(filter, paging);
-        return Result<IList<DogDto>>.Success(value);
+        var dogs = await dogRepository.GetAsync(filter, paging);
+        var dtos = dogs.Select(mapper.Map<DogDto>).ToList();
+
+        if (dogs is PagedList<Dog> paged)
+        {
+            var pagedDto = dtos.AsPagedList(paged.Info);
+            return Result<IList<DogDto>>.Success(pagedDto);
+        }
+
+        return Result<IList<DogDto>>.Success(dtos);
     }
 
     public async Task<Result> AddAsync(DogDto dto)

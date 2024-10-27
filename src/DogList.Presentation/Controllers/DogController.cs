@@ -20,12 +20,12 @@ public sealed class DogController(
     {
         var result = await dogService.GetAsync(filter, paging);
 
-        if (result.IsSuccess)
-            return paging is { PageNumber: > 0, PageSize: > 0 }
-                ? Results.Ok((result.Value as PagedList<DogDto>)!.ToPagedResponse())
-                : Results.Ok(result.Value);
+        if (!result.IsSuccess) return result.ToProblemDetails();
 
-        return result.ToProblemDetails();
+        if (result.Value is PagedList<DogDto> pagedDto)
+            return Results.Ok(pagedDto.ToPagedResponse());
+
+        return Results.Ok(result.Value);
     }
 
     [HttpPost]

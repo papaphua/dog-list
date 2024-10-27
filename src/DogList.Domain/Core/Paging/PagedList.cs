@@ -8,5 +8,11 @@ public sealed class PagedList<T> : List<T>
         AddRange(items);
     }
 
+    public PagedList(IEnumerable<T> items, PagingInfo info)
+    {
+        Info = info;
+        AddRange(items);
+    }
+
     public PagingInfo Info { get; }
 }

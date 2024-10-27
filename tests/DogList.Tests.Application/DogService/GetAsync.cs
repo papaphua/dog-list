@@ -27,26 +27,36 @@ public sealed class GetAsync
     [Fact]
     public async Task GetAsync_ShouldReturnDogs()
     {
-        var filter = new FilteringQuery();
-        var paging = new PagingQuery(1, 2);
-        var dogList = new List<DogDto>
+        var filter = new FilteringQuery
         {
-            new()
-            {
-                Name = "Buddy",
-                Color = "Brown",
-                TailLength = 10,
-                Weight = 20
-            }
+            Attribute = "Name",
+            Order = "asc"
         };
 
-        _dogRepositoryMock.Setup(repo => repo.GetAsync(filter, paging))
-            .ReturnsAsync(dogList);
+        var pageNumber = 1;
+        var pageSize = 2;
+        var paging = new PagingQuery(pageNumber, pageSize);
+
+        var dogs = new List<Dog>
+        {
+            new() { Name = "Buddy", Color = "Brown", TailLength = 10, Weight = 20 },
+            new() { Name = "Max", Color = "Black", TailLength = 15, Weight = 25 }
+        };
+        var pagedDogs = new PagedList<Dog>(dogs, paging, 2);
+
+        _dogRepositoryMock
+            .Setup(repo => repo.GetAsync(filter, paging))
+            .ReturnsAsync(pagedDogs);
 
         var result = await _dogService.GetAsync(filter, paging);
 
         result.Should().NotBeNull();
         result.IsSuccess.Should().BeTrue();
-        result.Value.Should().BeEquivalentTo(dogList);
+        result.Value.Should().NotBeNull();
+        result.Value.Should().BeOfType<PagedList<DogDto>>();
+        var pagedResult = result.Value as PagedList<DogDto>;
+        pagedResult?.Info.Should().NotBeNull();
+        pagedResult?.Info.TotalPages.Should().Be((int)Math.Ceiling(dogs.Count / (double)pageSize));
+        pagedResult?.Info.TotalItems.Should().Be(pageSize);
     }
 }
