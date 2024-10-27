@@ -1,5 +1,5 @@
 ﻿namespace DogList.Domain.Core.Filtering;
 
 public abstract record FilteringQuery(
-    string Attribute,
-    string Order);
+    string? Attribute = null,
+    string Order = "asc");

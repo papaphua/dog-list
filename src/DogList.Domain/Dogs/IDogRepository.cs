@@ -5,7 +5,9 @@ namespace DogList.Domain.Dogs;
 
 public interface IDogRepository : IRepository<Dog>
 {
-    Task<PagedList<DogDto>> GetAsync(PagingQuery paging, DogFilter filter);
+    Task<List<DogDto>> GetAsync(DogFilter filter);
+    
+    Task<PagedList<DogDto>> GetAsync(DogFilter filter, PagingQuery paging);
 
     Task<bool> NameExists(string name);
 }

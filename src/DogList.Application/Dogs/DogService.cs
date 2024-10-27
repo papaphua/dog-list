@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DogList.Application.Core;
 using DogList.Domain.Core.Paging;
+using DogList.Domain.Core.Results;
 using DogList.Domain.Dogs;
 
 namespace DogList.Application.Dogs;
@@ -11,42 +12,45 @@ public sealed class DogService(
     IMapper mapper)
     : IDogService
 {
-    public async Task<PagedList<DogDto>> GetAsync(PagingQuery paging, DogFilter filter)
+    public async Task<Result<List<DogDto>>> GetAsync(DogFilter filter)
     {
-        return await dogRepository.GetAsync(paging, filter);
+        return await dogRepository.GetAsync(filter);
     }
 
-    public async Task AddAsync(DogDto dto)
+    public async Task<Result<PagedList<DogDto>>> GetAsync(DogFilter filter, PagingQuery paging)
     {
-        var dogExists = await dogRepository.NameExists(dto.Name);
+        return await dogRepository.GetAsync(filter, paging);
+    }
 
+    public async Task<Result> AddAsync(DogDto dto)
+    {
         if (dto.Name.Length == 0)
-        {
-            throw new Exception();
-        }
+            return DogErrors.InvalidName;
 
         if (dto.Color.Length == 0)
-        {
-            throw new Exception();
-        }
+            return DogErrors.InvalidColor;
 
         if (dto.TailLength <= 0)
-        {
-            throw new Exception();
-        }
+            return DogErrors.InvalidTailLength;
 
         if (dto.Weight <= 0)
-        {
-            throw new Exception();
-        }
+            return DogErrors.InvalidWeight;
 
-        if (dogExists)
-        {
-            throw new Exception();
-        }
+        if (await dogRepository.NameExists(dto.Name))
+            return DogErrors.AlreadyExists;
 
         var dog = mapper.Map<Dog>(dto);
-        await dogRepository.AddAsync(dog);
-        await unitOfWork.SaveChangesAsync();
+
+        try
+        {
+            await dogRepository.AddAsync(dog);
+            await unitOfWork.SaveChangesAsync();
+        }
+        catch (Exception)
+        {
+            return DogErrors.AddError;
+        }
+
+        return Result.Success();
     }
 }

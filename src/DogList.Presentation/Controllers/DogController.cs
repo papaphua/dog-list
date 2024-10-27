@@ -1,6 +1,8 @@
 ﻿using DogList.Application.Dogs;
 using DogList.Domain.Core.Paging;
+using DogList.Domain.Core.Results;
 using DogList.Domain.Dogs;
+using DogList.Presentation.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -13,16 +15,26 @@ public sealed class DogController(
     IDogService dogService)
 {
     [HttpGet]
-    public async Task<IResult> Get([FromQuery] PagingQuery paging, [FromQuery] DogFilter filter)
+    public async Task<IResult> Get([FromQuery] DogFilter filter, [FromQuery] PagingQuery? paging = null)
     {
-        var dogs = await dogService.GetAsync(paging, filter);
-        return Results.Ok(dogs);
+        var hasPaging = paging is { PageNumber: > 0, PageSize: > 0 };
+
+        dynamic result = hasPaging
+            ? await dogService.GetAsync(filter, paging!)
+            : await dogService.GetAsync(filter);
+
+        return result.IsSuccess
+            ? Results.Ok(result.Value)
+            : result.ToProblemDetails();
     }
 
     [HttpPost]
     public async Task<IResult> Add(DogDto dto)
     {
-        await dogService.AddAsync(dto);
-        return Results.Ok();
+        var result = await dogService.AddAsync(dto);
+
+        return result.IsSuccess
+            ? Results.Ok()
+            : result.ToProblemDetails();
     }
 }

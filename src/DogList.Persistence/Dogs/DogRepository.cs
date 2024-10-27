@@ -16,7 +16,16 @@ public sealed class DogRepository(
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
-    public async Task<PagedList<DogDto>> GetAsync(PagingQuery paging, DogFilter filter)
+    public async Task<List<DogDto>> GetAsync(DogFilter filter)
+    {
+        return await _dbContext
+            .Set<Dog>()
+            .ProjectTo<DogDto>(mapper.ConfigurationProvider)
+            .OrderBy($"{filter.Attribute} {filter.Order}")
+            .ToListAsync();
+    }
+
+    public async Task<PagedList<DogDto>> GetAsync(DogFilter filter, PagingQuery paging)
     {
         return await _dbContext
             .Set<Dog>()

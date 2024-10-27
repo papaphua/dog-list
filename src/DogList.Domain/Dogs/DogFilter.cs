@@ -3,6 +3,6 @@
 namespace DogList.Domain.Dogs;
 
 public sealed record DogFilter(
-    string Attribute = nameof(Dog.Name),
+    string? Attribute,
     string Order = "asc")
     : FilteringQuery(Attribute, Order);
