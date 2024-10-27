@@ -21,13 +21,10 @@ public sealed class DogRepository(
     {
         var query = _dbContext
             .Set<Dog>()
-            .OrderBy($"{filter.Attribute ?? nameof(Dog.Id)} {filter.Order}")
+            .OrderBy($"{filter.Attribute ?? nameof(Dog.Name)} {filter.Order}")
             .ProjectTo<DogDto>(mapper.ConfigurationProvider);
-        
-        if (paging is { PageNumber: > 0, PageSize: > 0 })
-        {
-            return await query.ToPagedListAsync(paging);
-        }
+
+        if (paging is { PageNumber: > 0, PageSize: > 0 }) return await query.ToPagedListAsync(paging);
 
         return await query.ToListAsync();
     }

@@ -8,5 +8,6 @@ public sealed class DogConfiguration : IEntityTypeConfiguration<Dog>
 {
     public void Configure(EntityTypeBuilder<Dog> builder)
     {
+        builder.HasKey(dog => dog.Name);
     }
 }

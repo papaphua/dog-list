@@ -21,11 +21,9 @@ public sealed class DogController(
         var result = await dogService.GetAsync(filter, paging);
 
         if (result.IsSuccess)
-        {
             return paging is { PageNumber: > 0, PageSize: > 0 }
                 ? Results.Ok((result.Value as PagedList<DogDto>)!.ToPagedResponse())
                 : Results.Ok(result.Value);
-        }
 
         return result.ToProblemDetails();
     }

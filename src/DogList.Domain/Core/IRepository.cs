@@ -1,10 +1,8 @@
 ﻿namespace DogList.Domain.Core;
 
-public interface IRepository<TEntity>
-    where TEntity : Entity
+public interface IRepository<in TEntity>
+    where TEntity : class, IEntity
 {
-    Task<TEntity?> GetByIdAsync(Guid id);
-
     Task AddAsync(TEntity entity);
 
     Task AddRangeAsync(IEnumerable<TEntity> entities);

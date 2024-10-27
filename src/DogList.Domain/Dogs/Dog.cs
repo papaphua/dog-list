@@ -2,7 +2,7 @@
 
 namespace DogList.Domain.Dogs;
 
-public sealed class Dog : Entity
+public sealed class Dog : IEntity
 {
     public string Name { get; set; }
 

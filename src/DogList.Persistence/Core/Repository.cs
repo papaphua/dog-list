@@ -1,18 +1,11 @@
 ﻿using DogList.Domain.Core;
-using Microsoft.EntityFrameworkCore;
 
 namespace DogList.Persistence.Core;
 
 public abstract class Repository<TEntity>(ApplicationDbContext dbContext)
     : IRepository<TEntity>
-    where TEntity : Entity
+    where TEntity : class, IEntity
 {
-    public async Task<TEntity?> GetByIdAsync(Guid id)
-    {
-        return await dbContext.Set<TEntity>()
-            .FirstOrDefaultAsync(entity => entity.Id == id);
-    }
-
     public async Task AddAsync(TEntity entity)
     {
         await dbContext.Set<TEntity>()
