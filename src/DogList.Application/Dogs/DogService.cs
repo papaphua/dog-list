@@ -22,11 +22,11 @@ public sealed class DogService(
     public async Task<Result> AddAsync(DogDto dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name) ||
-            !dto.Name.Any(char.IsLetter))
+            dto.Name.Any(ch => !char.IsLetter(ch)))
             return DogErrors.InvalidName;
 
         if (dto.Color.Length < 3 ||
-            !dto.Color.Any(char.IsLetter))
+            dto.Color.Any(ch => !char.IsLetter(ch)))
             return DogErrors.InvalidColor;
 
         if (dto.TailLength <= 0)

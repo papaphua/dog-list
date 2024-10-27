@@ -38,6 +38,8 @@ public static class HostingExtensions
         builder.Services.RegisterRepositories();
         builder.Services.RegisterServices();
 
+        builder.Services.ConfigureOptions<AppOptionsSetup>();
+
         builder.Services.AddAutoMapper(options =>
             options.AddMaps(Application.AssemblyReference.Assembly));
 
