@@ -2,6 +2,7 @@
 using DogList.Domain.Core.Paging;
 using DogList.Domain.Dogs;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogList.Presentation.Controllers;
@@ -16,5 +17,12 @@ public sealed class DogController(
     {
         var dogs = await dogService.GetAsync(paging, filter);
         return Results.Ok(dogs);
+    }
+
+    [HttpPost]
+    public async Task<IResult> Add(DogDto dto)
+    {
+        await dogService.AddAsync(dto);
+        return Results.Ok();
     }
 }

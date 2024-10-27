@@ -8,5 +8,6 @@ public sealed class DogMap : Profile
     public DogMap()
     {
         CreateMap<Dog, DogDto>();
+        CreateMap<DogDto, Dog>();
     }
 }

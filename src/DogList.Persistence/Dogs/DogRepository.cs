@@ -5,6 +5,7 @@ using DogList.Domain.Core.Paging;
 using DogList.Domain.Dogs;
 using DogList.Persistence.Core;
 using DogList.Persistence.Core.Paging;
+using Microsoft.EntityFrameworkCore;
 
 namespace DogList.Persistence.Dogs;
 
@@ -22,5 +23,12 @@ public sealed class DogRepository(
             .ProjectTo<DogDto>(mapper.ConfigurationProvider)
             .OrderBy($"{filter.Attribute} {filter.Order}")
             .ToPagedListAsync(paging);
+    }
+
+    public async Task<bool> NameExists(string name)
+    {
+        return await _dbContext
+            .Set<Dog>()
+            .AnyAsync(dog => dog.Name == name);
     }
 }
