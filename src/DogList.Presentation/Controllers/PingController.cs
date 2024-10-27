@@ -11,8 +11,6 @@ namespace DogList.Presentation.Controllers;
 [EnableRateLimiting("fixedLimiter")]
 public sealed class PingController(IOptions<AppOptions> appOptions)
 {
-    private const string Ver = "Dogshouseservice.Version1.0.1";
-
     [HttpGet]
     public IResult Ping()
     {
