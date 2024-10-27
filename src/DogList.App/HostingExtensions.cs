@@ -1,6 +1,8 @@
-﻿using DogList.App.Startup;
+﻿using System.Threading.RateLimiting;
+using DogList.App.Startup;
 using DogList.Application.Core;
 using DogList.Persistence;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using AssemblyReference = DogList.Presentation.AssemblyReference;
 
@@ -15,6 +17,17 @@ public static class HostingExtensions
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddRateLimiter(rateLimiterOptions =>
+        {
+            rateLimiterOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+            rateLimiterOptions.AddFixedWindowLimiter("fixedLimiter", options =>
+            {
+                options.PermitLimit = 10;
+                options.Window = TimeSpan.FromSeconds(1);
+                options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+            });
+        });
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -40,6 +53,8 @@ public static class HostingExtensions
         }
 
         app.MapControllers();
+
+        app.UseRateLimiter();
 
         app.Run();
 

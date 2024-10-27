@@ -5,11 +5,13 @@ using DogList.Domain.Dogs;
 using DogList.Presentation.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace DogList.Presentation.Controllers;
 
 [ApiController]
 [Route("api/dogs")]
+[EnableRateLimiting("fixedLimiter")]
 public sealed class DogController(
     IDogService dogService)
 {
