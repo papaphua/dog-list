@@ -1,6 +1,7 @@
 ﻿using System.Linq.Dynamic.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using DogList.Domain.Core.Filtering;
 using DogList.Domain.Core.Paging;
 using DogList.Domain.Dogs;
 using DogList.Persistence.Core;
@@ -16,21 +17,29 @@ public sealed class DogRepository(
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
-    public async Task<List<DogDto>> GetAsync(DogFilter filter)
+    public async Task<List<DogDto>> GetAsync(FilteringQuery filter)
     {
-        return await _dbContext
+        var query = _dbContext
             .Set<Dog>()
+            .AsQueryable();
+
+        if (filter.Attribute != null) query = query.OrderBy($"{filter.Attribute} {filter.Order}");
+
+        return await query
             .ProjectTo<DogDto>(mapper.ConfigurationProvider)
-            .OrderBy($"{filter.Attribute} {filter.Order}")
             .ToListAsync();
     }
 
-    public async Task<PagedList<DogDto>> GetAsync(DogFilter filter, PagingQuery paging)
+    public async Task<PagedList<DogDto>> GetAsync(FilteringQuery filter, PagingQuery paging)
     {
-        return await _dbContext
+        var query = _dbContext
             .Set<Dog>()
+            .AsQueryable();
+
+        if (filter.Attribute != null) query = query.OrderBy($"{filter.Attribute} {filter.Order}");
+
+        return await query
             .ProjectTo<DogDto>(mapper.ConfigurationProvider)
-            .OrderBy($"{filter.Attribute} {filter.Order}")
             .ToPagedListAsync(paging);
     }
 

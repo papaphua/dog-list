@@ -1,10 +1,9 @@
 ﻿using DogList.Application.Dogs;
+using DogList.Domain.Core.Filtering;
 using DogList.Domain.Core.Paging;
-using DogList.Domain.Core.Results;
 using DogList.Domain.Dogs;
 using DogList.Presentation.Core;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DogList.Presentation.Controllers;
@@ -15,7 +14,7 @@ public sealed class DogController(
     IDogService dogService)
 {
     [HttpGet]
-    public async Task<IResult> Get([FromQuery] DogFilter filter, [FromQuery] PagingQuery? paging = null)
+    public async Task<IResult> Get([FromQuery] FilteringQuery filter, [FromQuery] PagingQuery? paging = null)
     {
         var hasPaging = paging is { PageNumber: > 0, PageSize: > 0 };
 

@@ -5,10 +5,10 @@ namespace DogList.Domain.Dogs;
 public static class DogErrors
 {
     public static readonly Error InvalidName = Error.Validation(
-        "Dog.InvalidName", "Name length mus be greater than 0.");
+        "Dog.InvalidName", "Name length mus be greater than 0 and contain only letters.");
 
     public static readonly Error InvalidColor = Error.Validation(
-        "Dog.InvalidColor", "Color name length must be greater than 0.");
+        "Dog.InvalidColor", "Color name length must be equal to or greater than 3 and contain only letters.");
 
     public static readonly Error InvalidTailLength = Error.Validation(
         "Dog.InvalidTailLength", "TailLength must be greater than 0.");

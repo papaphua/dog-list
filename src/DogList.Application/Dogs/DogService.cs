@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DogList.Application.Core;
+using DogList.Domain.Core.Filtering;
 using DogList.Domain.Core.Paging;
 using DogList.Domain.Core.Results;
 using DogList.Domain.Dogs;
@@ -12,22 +13,24 @@ public sealed class DogService(
     IMapper mapper)
     : IDogService
 {
-    public async Task<Result<List<DogDto>>> GetAsync(DogFilter filter)
+    public async Task<Result<List<DogDto>>> GetAsync(FilteringQuery filter)
     {
         return await dogRepository.GetAsync(filter);
     }
 
-    public async Task<Result<PagedList<DogDto>>> GetAsync(DogFilter filter, PagingQuery paging)
+    public async Task<Result<PagedList<DogDto>>> GetAsync(FilteringQuery filter, PagingQuery paging)
     {
         return await dogRepository.GetAsync(filter, paging);
     }
 
     public async Task<Result> AddAsync(DogDto dto)
     {
-        if (dto.Name.Length == 0)
+        if (string.IsNullOrWhiteSpace(dto.Name) ||
+            !dto.Name.Any(char.IsLetter))
             return DogErrors.InvalidName;
 
-        if (dto.Color.Length == 0)
+        if (dto.Color.Length < 3 ||
+            !dto.Color.Any(char.IsLetter))
             return DogErrors.InvalidColor;
 
         if (dto.TailLength <= 0)
