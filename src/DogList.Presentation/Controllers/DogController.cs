@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.RateLimiting;
 namespace DogList.Presentation.Controllers;
 
 [ApiController]
-[Route("api/dogs")]
+[Route("dogs")]
 [EnableRateLimiting("fixedLimiter")]
 public sealed class DogController(
     IDogService dogService)
