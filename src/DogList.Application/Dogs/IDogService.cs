@@ -7,7 +7,7 @@ namespace DogList.Application.Dogs;
 
 public interface IDogService
 {
-    Task<Result<IList<DogDto>>> GetAsync(FilteringQuery filter, PagingQuery? paging);
+    Task<Result<PagedList<DogDto>>> GetAsync(FilteringQuery filter, PagingQuery? paging);
 
     Task<Result> AddAsync(DogDto dto);
 }

@@ -13,18 +13,11 @@ public sealed class DogService(
     IMapper mapper)
     : IDogService
 {
-    public async Task<Result<IList<DogDto>>> GetAsync(FilteringQuery filter, PagingQuery? paging)
+    public async Task<Result<PagedList<DogDto>>> GetAsync(FilteringQuery filter, PagingQuery? paging)
     {
         var dogs = await dogRepository.GetAsync(filter, paging);
-        var dtos = dogs.Select(mapper.Map<DogDto>).ToList();
-
-        if (dogs is PagedList<Dog> paged)
-        {
-            var pagedDto = dtos.AsPagedList(paged.Info);
-            return Result<IList<DogDto>>.Success(pagedDto);
-        }
-
-        return Result<IList<DogDto>>.Success(dtos);
+        var dtos = dogs.Select(mapper.Map<DogDto>).AsPagedList(dogs.Info);
+        return Result<PagedList<DogDto>>.Success(dtos);
     }
 
     public async Task<Result> AddAsync(DogDto dto)

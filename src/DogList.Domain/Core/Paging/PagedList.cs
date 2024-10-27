@@ -14,5 +14,16 @@ public sealed class PagedList<T> : List<T>
         AddRange(items);
     }
 
+    public PagedList(IList<T> items)
+    {
+        Info = new PagingInfo(items.Count);
+        AddRange(items);
+    }
+
+    public PagedList()
+    {
+        Info = new PagingInfo();
+    }
+
     public PagingInfo Info { get; }
 }

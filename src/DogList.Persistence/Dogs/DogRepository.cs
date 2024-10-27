@@ -16,7 +16,7 @@ public sealed class DogRepository(
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
-    public async Task<IList<Dog>> GetAsync(FilteringQuery filter, PagingQuery? paging)
+    public async Task<PagedList<Dog>> GetAsync(FilteringQuery filter, PagingQuery? paging)
     {
         var query = _dbContext
             .Set<Dog>()
@@ -24,7 +24,7 @@ public sealed class DogRepository(
 
         if (paging is { PageNumber: > 0, PageSize: > 0 }) return await query.ToPagedListAsync(paging);
 
-        return await query.ToListAsync();
+        return new PagedList<Dog>(await query.ToListAsync());
     }
 
     public async Task<bool> NameExists(string name)

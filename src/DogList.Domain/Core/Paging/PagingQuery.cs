@@ -2,4 +2,7 @@
 
 public sealed record PagingQuery(
     int PageNumber,
-    int PageSize);
+    int PageSize)
+{
+    public int Offset => (PageNumber - 1) * PageSize;
+}

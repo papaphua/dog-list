@@ -1,14 +1,34 @@
 ﻿namespace DogList.Domain.Core.Paging;
 
-public class PagingInfo(PagingQuery paging, int totalItems)
+public class PagingInfo
 {
-    public int PageNumber { get; } = paging.PageNumber;
+    public PagingInfo(PagingQuery paging, int totalItems)
+    {
+        PageNumber = paging.PageNumber;
+        PageSize = paging.PageSize;
+        TotalItems = totalItems;
+        TotalPages = (int)Math.Ceiling(totalItems / (double)paging.PageSize);
+    }
 
-    public int PageSize { get; } = paging.PageSize;
+    public PagingInfo(int totalItems)
+    {
+        PageNumber = 1;
+        PageSize = totalItems;
+        TotalItems = totalItems;
+        TotalPages = 1;
+    }
 
-    public int TotalItems { get; } = totalItems;
+    public PagingInfo()
+    {
+    }
 
-    public int TotalPages { get; } = (int)Math.Ceiling(totalItems / (double)paging.PageSize);
+    public int PageNumber { get; }
+
+    public int PageSize { get; }
+
+    public int TotalItems { get; }
+
+    public int TotalPages { get; }
 
     public bool HasNextPage => PageNumber < TotalPages;
 
