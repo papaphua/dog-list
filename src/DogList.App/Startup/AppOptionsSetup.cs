@@ -10,6 +10,7 @@ public sealed class AppOptionsSetup(IConfiguration configuration)
 
     public void Configure(AppOptions options)
     {
+        // Binds the App section from appsettings.json.
         configuration.GetSection(AppSection)
             .Bind(options);
     }

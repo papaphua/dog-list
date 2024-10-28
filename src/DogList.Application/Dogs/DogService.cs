@@ -16,8 +16,13 @@ public sealed class DogService(
     public async Task<Result<PagedList<DogDto>>> GetAsync(FilteringQuery filter, PagingQuery? paging)
     {
         var dogs = await dogRepository.GetAsync(filter, paging);
-        var dtos = dogs.Select(mapper.Map<DogDto>).AsPagedList(dogs.Info);
-        return Result<PagedList<DogDto>>.Success(dtos);
+        var dtos = dogs.Select(mapper.Map<DogDto>);
+
+        // Required to retrieve back paging information.
+        // If PagingQuery was not provided, it will still contain info indicating that there is only one dog page.
+        var pagedDto = dtos.AsPagedList(dogs.Info);
+
+        return Result<PagedList<DogDto>>.Success(pagedDto);
     }
 
     public async Task<Result> AddAsync(DogDto dto)

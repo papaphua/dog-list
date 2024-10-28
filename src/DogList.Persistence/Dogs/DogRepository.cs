@@ -22,8 +22,11 @@ public sealed class DogRepository(
             .Set<Dog>()
             .OrderBy($"{filter.Attribute ?? nameof(Dog.Name)} {filter.Order}");
 
+        // Return a paginated dog list if paging information is provided
         if (paging is { PageNumber: > 0, PageSize: > 0 }) return await query.ToPagedListAsync(paging);
 
+        // Return a full dog list if paging is not provided
+        // This assumes there is only one page containing all the dogs
         return new PagedList<Dog>(await query.ToListAsync());
     }
 

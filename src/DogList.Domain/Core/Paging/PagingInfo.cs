@@ -1,12 +1,13 @@
 ﻿namespace DogList.Domain.Core.Paging;
 
 /// <summary>
-/// Represents information about paging for a list of items.
+///     Represents information about paging for a list of items.
 /// </summary>
 public class PagingInfo
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PagingInfo"/> class based on the provided paging query and total item count.
+    ///     Initializes a new instance of the <see cref="PagingInfo" /> class based on the provided paging query and total item
+    ///     count.
     /// </summary>
     /// <param name="paging">The paging query containing page number and size.</param>
     /// <param name="totalItems">The total number of items available.</param>
@@ -19,7 +20,7 @@ public class PagingInfo
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PagingInfo"/> class with a single page containing all items.
+    ///     Initializes a new instance of the <see cref="PagingInfo" /> class with a single page containing all items.
     /// </summary>
     /// <param name="totalItems">The total number of items available.</param>
     public PagingInfo(int totalItems)
@@ -31,39 +32,39 @@ public class PagingInfo
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PagingInfo"/> class with default values.
+    ///     Initializes a new instance of the <see cref="PagingInfo" /> class with default values.
     /// </summary>
     public PagingInfo()
     {
     }
 
     /// <summary>
-    /// Gets the current page number.
+    ///     Gets the current page number.
     /// </summary>
     public int PageNumber { get; }
 
     /// <summary>
-    /// Gets the size of each page.
+    ///     Gets the size of each page.
     /// </summary>
     public int PageSize { get; }
 
     /// <summary>
-    /// Gets the total number of items available.
+    ///     Gets the total number of items available.
     /// </summary>
     public int TotalItems { get; }
 
     /// <summary>
-    /// Gets the total number of pages based on total items and page size.
+    ///     Gets the total number of pages based on total items and page size.
     /// </summary>
     public int TotalPages { get; }
 
     /// <summary>
-    /// Gets a value indicating whether there is a next page.
+    ///     Gets a value indicating whether there is a next page.
     /// </summary>
     public bool HasNextPage => PageNumber < TotalPages;
 
     /// <summary>
-    /// Gets a value indicating whether there is a previous page.
+    ///     Gets a value indicating whether there is a previous page.
     /// </summary>
     public bool HasPreviousPage => PageNumber > 1;
 }
