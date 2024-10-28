@@ -1,13 +1,14 @@
 ﻿namespace DogList.Domain.Core.Paging;
 
 /// <summary>
-/// Represents a paged collection of items, inheriting from <see cref="List{T}"/>.
+///     Represents a paged collection of items, inheriting from <see cref="List{T}" />.
 /// </summary>
 /// <typeparam name="T">The type of items in the list.</typeparam>
 public sealed class PagedList<T> : List<T>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="PagedList{T}"/> class with the specified items, paging query, and total items.
+    ///     Initializes a new instance of the <see cref="PagedList{T}" /> class with the specified items, paging query, and
+    ///     total items.
     /// </summary>
     /// <param name="items">The list of items for this page.</param>
     /// <param name="query">The paging query used to retrieve this page.</param>
@@ -19,7 +20,8 @@ public sealed class PagedList<T> : List<T>
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PagedList{T}"/> class with the specified items and paging information.
+    ///     Initializes a new instance of the <see cref="PagedList{T}" /> class with the specified items and paging
+    ///     information.
     /// </summary>
     /// <param name="items">The collection of items for this page.</param>
     /// <param name="info">The paging information associated with the items.</param>
@@ -30,7 +32,7 @@ public sealed class PagedList<T> : List<T>
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PagedList{T}"/> class using a specified list of items.
+    ///     Initializes a new instance of the <see cref="PagedList{T}" /> class using a specified list of items.
     /// </summary>
     /// <param name="items">The list of items for this page.</param>
     public PagedList(IList<T> items)
@@ -40,7 +42,7 @@ public sealed class PagedList<T> : List<T>
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PagedList{T}"/> class with default values.
+    ///     Initializes a new instance of the <see cref="PagedList{T}" /> class with default values.
     /// </summary>
     public PagedList()
     {
@@ -48,7 +50,7 @@ public sealed class PagedList<T> : List<T>
     }
 
     /// <summary>
-    /// Gets the paging information associated with this paged list.
+    ///     Gets the paging information associated with this paged list.
     /// </summary>
     public PagingInfo Info { get; }
 }

@@ -5,15 +5,16 @@ using Microsoft.AspNetCore.Http;
 namespace DogList.Presentation.Core;
 
 /// <summary>
-/// Provides extension methods for converting <see cref="Result"/> instances into HTTP problem details.
+///     Provides extension methods for converting <see cref="Result" /> instances into HTTP problem details.
 /// </summary>
 public static class ResultExtensions
 {
     /// <summary>
-    /// Converts a <see cref="Result"/> instance into an <see cref="IResult"/> representing the result of an HTTP endpoint.
+    ///     Converts a <see cref="Result" /> instance into an <see cref="IResult" /> representing the result of an HTTP
+    ///     endpoint.
     /// </summary>
     /// <param name="result">The result to convert.</param>
-    /// <returns>An <see cref="IResult"/> containing the result of an HTTP endpoint.</returns>
+    /// <returns>An <see cref="IResult" /> containing the result of an HTTP endpoint.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the result is not failure.</exception>
     public static IResult ToProblemDetails(this Result result)
     {

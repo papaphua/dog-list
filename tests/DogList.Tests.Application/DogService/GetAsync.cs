@@ -54,7 +54,7 @@ public sealed class GetAsync
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNull();
         result.Value.Should().BeOfType<PagedList<DogDto>>();
-        var pagedResult = result.Value as PagedList<DogDto>;
+        var pagedResult = result.Value;
         pagedResult?.Info.Should().NotBeNull();
         pagedResult?.Info.TotalPages.Should().Be((int)Math.Ceiling(dogs.Count / (double)pageSize));
         pagedResult?.Info.TotalItems.Should().Be(pageSize);

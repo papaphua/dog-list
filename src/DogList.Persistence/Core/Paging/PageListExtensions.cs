@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 namespace DogList.Persistence.Core.Paging;
 
 /// <summary>
-/// Provides extension methods for creating paged lists from collections.
+///     Provides extension methods for creating paged lists from collections.
 /// </summary>
 public static class PageListExtensions
 {
     /// <summary>
-    /// Converts an IQueryable source into a PagedList asynchronously, based on the provided PagingQuery.
+    ///     Converts an IQueryable source into a PagedList asynchronously, based on the provided PagingQuery.
     /// </summary>
     /// <typeparam name="T">The type of elements in the source.</typeparam>
     /// <param name="source">The source of data to paginate.</param>

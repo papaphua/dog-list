@@ -58,7 +58,7 @@ public sealed class GetAsync
         var paging = new PagingQuery(pageNumber, pageSize);
 
         var result = await _dogRepository.GetAsync(filter, paging);
-        var pagedList = result as PagedList<Dog>;
+        var pagedList = result;
 
         pagedList.Should().NotBeNull();
         pagedList.Should().HaveCount(pageSize);
